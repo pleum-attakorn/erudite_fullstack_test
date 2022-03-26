@@ -4,9 +4,7 @@ import {atom, useRecoilState } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
 
 
-export type CellProps = {
-    children: ComponentType | string;
-};
+export type CellProps = {};
 
 const Cell: FunctionComponent<CellProps> = (props) => {
     const [cellValue, setCellvalue] = useRecoilState<string>(CellValueState);
