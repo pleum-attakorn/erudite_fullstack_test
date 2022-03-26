@@ -3,7 +3,8 @@ import classes from './Cell.module.css';
 import {atom, useRecoilState } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
 
-
+export const CELL_WIDTH = 100;
+export const CELL_HEIGHT = 25;
 export type CellProps = {};
 
 const Cell: FunctionComponent<CellProps> = (props) => {
