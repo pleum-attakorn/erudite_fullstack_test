@@ -1,6 +1,3 @@
-// type MemoizedContent = {
-//     [key: string]: () => any;
-// }
 type MemoizedContent = any;
 
 const memoizedContent: MemoizedContent = {};
