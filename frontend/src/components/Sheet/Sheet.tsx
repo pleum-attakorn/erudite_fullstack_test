@@ -1,6 +1,7 @@
 import React, {ComponentType, FunctionComponent} from "react";
 import Column from "../Column/Column";
 import Row from "../Row/Row";
+import Resizer from "../Resizer/Resizer";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import classes from "./Sheet.module.css";
 import { useRecoilValue } from "recoil";
@@ -14,7 +15,8 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     const numberOfColumns = sheetSize.width/CELL_WIDTH;
     const numberOfRows = sheetSize.height/CELL_HEIGHT;
     return (
-        <table className={classes.Sheet}>
+        <div className={classes.SheetWrapper}>
+            <table className={classes.Sheet}>
             <tbody>
                 {[...Array(numberOfRows)].map((row, rowIndex) => (
                     <Row key={rowIndex}>
@@ -26,7 +28,9 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                     </Row>
                 ))}        
             </tbody>
-        </table>
+            </table>
+            <Resizer />
+        </div>
     );
 };
 
