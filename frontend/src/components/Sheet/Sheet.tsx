@@ -12,8 +12,8 @@ export type SheetProps = {};
 const Sheet: FunctionComponent<SheetProps> = (props) => {
     const sheetSize = useRecoilValue(SheetSizeState);
 
-    const numberOfColumns = sheetSize.width/CELL_WIDTH;
-    const numberOfRows = sheetSize.height/CELL_HEIGHT;
+    const numberOfColumns = Math.ceil(sheetSize.width/CELL_WIDTH);
+    const numberOfRows = Math.ceil(sheetSize.height/CELL_HEIGHT);
     return (
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
