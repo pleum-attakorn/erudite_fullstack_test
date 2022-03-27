@@ -6,6 +6,7 @@ import Resizer from "../Resizer/Resizer";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import classes from "./Sheet.module.css";
 import { useRecoilValue } from "recoil";
+import { numberToChar } from "../../utils/numberToChar";
 import { SheetSizeState } from "../../store/SheetSizeState";
 
 export type SheetProps = {};
@@ -22,7 +23,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                 <Row>
                     {[...Array(numberOfColumns + 1)].map((column, columnIndex) =>
                      columnIndex !== 0 ? (
-                        <AxisCell>{columnIndex}</AxisCell>
+                        <AxisCell>{numberToChar(columnIndex - 1)}</AxisCell>
                      ) : (
                          <AxisCell />
                      )
