@@ -7,9 +7,9 @@ export const getEquationExpressionFromState = (
     notAllowedCellsIds: string[] = []
     ) => {
     
-    const filterFoundCells = notAllowedCellsIds.filter((cellId) =>
-        expression.includes(cellId)
-    );
+    // const filterFoundCells = notAllowedCellsIds.filter((cellId) =>
+    //     expression.includes(cellId)
+    // );
 
     // if (filterFoundCells.length) {
     //     return "!ERROR";

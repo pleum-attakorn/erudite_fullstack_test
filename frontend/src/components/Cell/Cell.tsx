@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ComponentType, FunctionComponent, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, ComponentType, FunctionComponent, useEffect, useRef, useState, KeyboardEvent} from "react";
 import classes from './Cell.module.css';
 import {useRecoilState, useRecoilValue } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
@@ -19,15 +19,28 @@ const Cell: FunctionComponent<CellProps> = (props) => {
         EvaluatedCellValueState(props.cellId)
     );
     const [isEditMode, setIsEditMode] = useState(false);
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const changeLabeltoInput = () => setIsEditMode(true);
+    const changeLabeltoInput = () => {
+        setIsEditMode(true);
+        setTimeout(() => {
+            inputRef.current?.focus();
+        });
+    };
     const changeInputtoLabel = () => setIsEditMode(false);
+    
     const onClickOutsideInputHandler = (event: MouseEvent) => {
         if((event.target as HTMLElement)?.dataset?.cellId !== props.cellId) {
             changeInputtoLabel();        
         }
     };
+
+    const onDefocusInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            setIsEditMode(false);
+        }
+    };
+
     const updateCellValueState = (event: ChangeEvent<HTMLInputElement>) =>
         setCellvalue(event.target.value);
 
@@ -44,6 +57,7 @@ const Cell: FunctionComponent<CellProps> = (props) => {
             data-cell-id={props.cellId}
             value={cellValue}
             onChange = {updateCellValueState}
+            onKeyDown = {onDefocusInputHandler}
         />        
     ) : (
         <div
