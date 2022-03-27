@@ -1,6 +1,7 @@
 import React, {ComponentType, FunctionComponent} from "react";
 import Column from "../Column/Column";
 import Row from "../Row/Row";
+import AxisCell from "../AxisCell/AxisCell";
 import Resizer from "../Resizer/Resizer";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import classes from "./Sheet.module.css";
@@ -18,8 +19,18 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
             <tbody>
+                <Row>
+                    {[...Array(numberOfColumns + 1)].map((column, columnIndex) =>
+                     columnIndex !== 0 ? (
+                        <AxisCell>{columnIndex}</AxisCell>
+                     ) : (
+                         <AxisCell />
+                     )
+                    )}
+                </Row>
                 {[...Array(numberOfRows)].map((row, rowIndex) => (
                     <Row key={rowIndex}>
+                        <AxisCell>{rowIndex + 1}</AxisCell>
                         {[...Array(numberOfColumns)].map((column, columnIndex) => (
                             <Column key={columnIndex}>
                                 <Cell cellId={`${rowIndex},${columnIndex}`} />
