@@ -1,6 +1,7 @@
 import React, {FunctionComponent, useState} from "react";
 import { useRecoilState } from "recoil";
 import { SheetSizeState } from "../../store/SheetSizeState";
+import {CELL_HEIGHT} from "../Cell/Cell";
 import classes from "./AddRow.module.css";
 
 export type AddRowProps = {};
@@ -10,7 +11,7 @@ const Addrow: FunctionComponent<AddRowProps> = (props) => {
     const doClick = () => {
         setSheetSize({
             width: 600,
-            height: 600 + 25 * counter,
+            height: 600 + CELL_HEIGHT * counter,
         });
     }
 
