@@ -1,6 +1,7 @@
 from unittest import result
 from flask import Flask
 from flask_restful import Api,Resource,abort
+from flask_cors import CORS, cross_origin
 import pymongo
 from pymongo import MongoClient
 import certifi
@@ -18,11 +19,15 @@ for i in results:
 
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app)
+
 
 #validate
 def notFoundCity(city_id):
     if city_id not in mycity:
         abort(404,message='Not Found')
+
+@cross_origin()
 #design
 class WeatherCity(Resource):
     def get(self, city_id):
