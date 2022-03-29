@@ -2,6 +2,7 @@ import React, {ComponentType, FunctionComponent} from "react";
 import Column from "../Column/Column";
 import Row from "../Row/Row";
 import AxisCell from "../AxisCell/AxisCell";
+import Addrow from "../Row/AddRow";
 import Resizer from "../Resizer/Resizer";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import classes from "./Sheet.module.css";
@@ -41,7 +42,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                 ))}        
             </tbody>
             </table>
-            <Resizer />
+            <Addrow />
         </div>
     );
 };
