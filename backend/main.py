@@ -7,9 +7,10 @@ import certifi
 
 # pymango
 ca = certifi.where()
-cluster = MongoClient("mongodb+srv://Attakorn:1234@cluster0.xqwet.mongodb.net/table?retryWrites=true&w=majority", tlsCAFile = ca)
-db = cluster['table']
-collection = db['test1']
+#cluster = MongoClient("mongodb+srv://Attakorn:1234@cluster0.xqwet.mongodb.net/table?retryWrites=true&w=majority", tlsCAFile = ca)
+cluster = MongoClient("mongodb+srv://pleum:1234@cluster0.vyv4b.mongodb.net/test?retryWrites=true&w=majority", tlsCAFile = ca)
+db = cluster['test']
+collection = db['test']
 results = collection.find({})
 mycity = {}
 for i in results:
@@ -29,9 +30,12 @@ class WeatherCity(Resource):
         return mycity[city_id]
     def post(self, name):
         return {'data':'Create Resource = '+name}
-
+class allWeatherCity(Resource):
+    def get(self):
+        return mycity
 #call
-api.add_resource(WeatherCity, '/weather/<int:city_id>')
+#api.add_resource(WeatherCity, '/weather/<int:city_id>')
+api.add_resource(allWeatherCity, '/weather/')
 
 if __name__ == '__main__':
     app.run(debug=True)
