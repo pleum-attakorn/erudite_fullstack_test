@@ -11,30 +11,23 @@ ca = certifi.where()
 cluster = MongoClient("mongodb+srv://pleum:1234@cluster0.vyv4b.mongodb.net/test?retryWrites=true&w=majority", tlsCAFile = ca)
 db = cluster['test']
 collection = db['test']
-# results = collection.find({})
-# mycity = {}
-# for i in results:
-#     mycity[i['_id']] = i
+data = collection.find({})
+cell = {}
+loaddata = {}
+# count = 0
+# for i in data:
+#     dic = {}
+#     dic['cellid'] = i['cellid']
+#     dic['cellvalue'] = i['cellvalue']
+#     loaddata[count] = dic
+#     count = count + 1
+# print(loaddata)
 
 app = Flask(__name__)
 api = Api(app)
 cors = CORS(app)
 
-# class
-# def notFoundCity(city_id):
-#     if city_id not in mycity:
-#         abort(404,message='Not Found')
-# class WeatherCity(Resource):
-#     def get(self, city_id):
-#         notFoundCity(city_id)
-#         return mycity[city_id]
-#     def post(self, name):
-#         return {'data':'Create Resource = '+name}
-# class allWeatherCity(Resource):
-#     def get(self):
-#         return mycity
 #function
-cell = {}
 
 @cross_origin()
 @app.route('/getcelldata/', methods=['POST'])
@@ -45,7 +38,7 @@ def getData():
             cell[request.json['cellid']] = request.json['cellvalue']
         elif request.json['cellid'] in cell.keys():
             cell[request.json['cellid']] = request.json['cellvalue']
-        return 'post'
+        # return 'post'
 
 @app.route('/celldetail/', methods=['GET'])
 def detail():
@@ -54,17 +47,26 @@ def detail():
         return cell
 
 @app.route('/save/', methods=['POST'])
-def demosave():
+def save():
     error = None
     if request.method == 'POST':
         for i in cell.keys():
             collection.update_one({'_id': i}, { "$set": {'cellid' : i,  'cellvalue' : cell[i]} })
-    return cell
+    # return cell
 
-
-#call
-#api.add_resource(WeatherCity, '/weather/<int:city_id>')
-#api.add_resource(allWeatherCity, '/weather/')
+@app.route('/load/', methods=['GET'])
+def load():
+    error = None     
+    if request.method == 'GET':
+        data = collection.find({})
+        count = 0
+        for i in data:
+            dic = {}
+            dic['cellid'] = i['cellid']
+            dic['cellvalue'] = i['cellvalue']
+            loaddata[count] = dic
+            count = count + 1
+        return loaddata
 
 if __name__ == '__main__':
     app.run(debug=True)
