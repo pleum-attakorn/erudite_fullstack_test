@@ -18,8 +18,16 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     const numberOfColumns = Math.ceil(sheetSize.width/CELL_WIDTH);
     const numberOfRows = Math.ceil(sheetSize.height/CELL_HEIGHT);
 
+    const saveData = () => {
+        fetch("http://127.0.0.1:5000/save/", {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},        
+    })
+    }
+
     return (
-        <div><button>save</button>
+        <div>
+            <button onClick={saveData}>save</button>
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
             <tbody>

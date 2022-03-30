@@ -11,10 +11,10 @@ ca = certifi.where()
 cluster = MongoClient("mongodb+srv://pleum:1234@cluster0.vyv4b.mongodb.net/test?retryWrites=true&w=majority", tlsCAFile = ca)
 db = cluster['test']
 collection = db['test']
-results = collection.find({})
-mycity = {}
-for i in results:
-    mycity[i['_id']] = i
+# results = collection.find({})
+# mycity = {}
+# for i in results:
+#     mycity[i['_id']] = i
 
 app = Flask(__name__)
 api = Api(app)
@@ -53,13 +53,13 @@ def detail():
     if request.method == 'GET':
         return cell
 
-@app.route('/demosave', methods=['GET'])
+@app.route('/save/', methods=['POST'])
 def demosave():
     error = None
-    if request.method == 'GET':
+    if request.method == 'POST':
         for i in cell.keys():
-            collection.insert_one({'cellid' : i, 'cellvalue' : cell[i]})
-        return cell
+            collection.update_one({'_id': i}, { "$set": {'cellid' : i,  'cellvalue' : cell[i]} })
+    return cell
 
 
 #call
