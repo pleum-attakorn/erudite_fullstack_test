@@ -49,7 +49,13 @@ const Cell: FunctionComponent<CellProps> = (props) => {
 
         return document.addEventListener("click", onClickOutsideInputHandler);
     }, []);
-    {console.log(props.cellId, cellValue)}
+    // {console.log({'cellid': props.cellId})}
+    fetch("http://127.0.0.1:5000/getcelldata/", {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify({'cellid': props.cellId, 'cellvalue' : cellValue}),
+    })
+
     return isEditMode ? (
         <input
             className={classes.CellInput} 

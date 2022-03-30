@@ -1,5 +1,4 @@
-from unittest import result
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api,Resource,abort
 from flask_cors import CORS, cross_origin
 import pymongo
@@ -21,26 +20,51 @@ app = Flask(__name__)
 api = Api(app)
 cors = CORS(app)
 
-
-#validate
-def notFoundCity(city_id):
-    if city_id not in mycity:
-        abort(404,message='Not Found')
+# class
+# def notFoundCity(city_id):
+#     if city_id not in mycity:
+#         abort(404,message='Not Found')
+# class WeatherCity(Resource):
+#     def get(self, city_id):
+#         notFoundCity(city_id)
+#         return mycity[city_id]
+#     def post(self, name):
+#         return {'data':'Create Resource = '+name}
+# class allWeatherCity(Resource):
+#     def get(self):
+#         return mycity
+#function
+cell = {}
 
 @cross_origin()
-#design
-class WeatherCity(Resource):
-    def get(self, city_id):
-        notFoundCity(city_id)
-        return mycity[city_id]
-    def post(self, name):
-        return {'data':'Create Resource = '+name}
-class allWeatherCity(Resource):
-    def get(self):
-        return mycity
+@app.route('/getcelldata/', methods=['POST'])
+def getData():
+    error = None
+    if request.method == 'POST':        
+        if request.json['cellid'] not in cell.keys():
+            cell[request.json['cellid']] = request.json['cellvalue']
+        elif request.json['cellid'] in cell.keys():
+            cell[request.json['cellid']] = request.json['cellvalue']
+        return 'post'
+
+@app.route('/celldetail/', methods=['GET'])
+def detail():
+    error = None
+    if request.method == 'GET':
+        return cell
+
+@app.route('/demosave', methods=['GET'])
+def demosave():
+    error = None
+    if request.method == 'GET':
+        for i in cell.keys():
+            collection.insert_one({'cellid' : i, 'cellvalue' : cell[i]})
+        return cell
+
+
 #call
 #api.add_resource(WeatherCity, '/weather/<int:city_id>')
-api.add_resource(allWeatherCity, '/weather/')
+#api.add_resource(allWeatherCity, '/weather/')
 
 if __name__ == '__main__':
     app.run(debug=True)
