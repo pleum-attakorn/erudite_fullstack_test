@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 import pymongo
 from pymongo import MongoClient
 import certifi
+import json
 
 # pymango
 ca = certifi.where()
@@ -13,15 +14,7 @@ db = cluster['test']
 collection = db['test']
 data = collection.find({})
 cell = {}
-loaddata = {}
-# count = 0
-# for i in data:
-#     dic = {}
-#     dic['cellid'] = i['cellid']
-#     dic['cellvalue'] = i['cellvalue']
-#     loaddata[count] = dic
-#     count = count + 1
-# print(loaddata)
+loaddata = []
 
 app = Flask(__name__)
 api = Api(app)
@@ -38,7 +31,7 @@ def getData():
             cell[request.json['cellid']] = request.json['cellvalue']
         elif request.json['cellid'] in cell.keys():
             cell[request.json['cellid']] = request.json['cellvalue']
-        # return 'post'
+        return '200 OK'
 
 @app.route('/celldetail/', methods=['GET'])
 def detail():
@@ -52,21 +45,35 @@ def save():
     if request.method == 'POST':
         for i in cell.keys():
             collection.update_one({'_id': i}, { "$set": {'cellid' : i,  'cellvalue' : cell[i]} })
-    # return cell
+    return '200 OK'
 
-@app.route('/load/', methods=['GET'])
-def load():
+@app.route('/demoload/', methods=['GET'])
+def demoload():
     error = None     
     if request.method == 'GET':
         data = collection.find({})
-        count = 0
+        
         for i in data:
             dic = {}
             dic['cellid'] = i['cellid']
             dic['cellvalue'] = i['cellvalue']
-            loaddata[count] = dic
-            count = count + 1
-        return loaddata
+            loaddata.append(dic)
+        return json.dumps(loaddata)
+
+@app.route('/load/', methods=['POST'])
+def load():
+    error = None     
+    if request.method == 'POST':
+        data = collection.find({})
+        # count = 0
+        for i in data:
+            dic = {}
+            dic['cellid'] = i['cellid']
+            dic['cellvalue'] = i['cellvalue']
+            loaddata.append(dic)
+            # count = count + 1
+        return json.dumps(loaddata)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -23,11 +23,22 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         method: 'POST',
         headers: {'content-type': 'application/json'},        
     })
+        
+    }
+
+    const loadData = () => {
+        fetch("http://127.0.0.1:5000/load/", {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},        
+    })
+        .then(res => res.json())
+        .then(obj => console.log(obj))
     }
 
     return (
         <div>
             <button onClick={saveData}>save</button>
+            <button onClick={loadData}>load</button>
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
             <tbody>
