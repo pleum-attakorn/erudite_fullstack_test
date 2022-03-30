@@ -49,7 +49,7 @@ const Cell: FunctionComponent<CellProps> = (props) => {
 
         return document.addEventListener("click", onClickOutsideInputHandler);
     }, []);
-
+    {console.log(props.cellId, cellValue)}
     return isEditMode ? (
         <input
             className={classes.CellInput} 

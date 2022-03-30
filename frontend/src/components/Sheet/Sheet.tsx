@@ -17,7 +17,9 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
 
     const numberOfColumns = Math.ceil(sheetSize.width/CELL_WIDTH);
     const numberOfRows = Math.ceil(sheetSize.height/CELL_HEIGHT);
+
     return (
+        <div><button>save</button>
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
             <tbody>
@@ -43,6 +45,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
             </tbody>
             </table>
             <Addrow />
+        </div>
         </div>
     );
 };
