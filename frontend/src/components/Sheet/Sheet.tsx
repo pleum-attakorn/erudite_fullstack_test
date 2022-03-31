@@ -6,17 +6,32 @@ import Addrow from "../Row/AddRow";
 import Resizer from "../Resizer/Resizer";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import classes from "./Sheet.module.css";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { numberToChar } from "../../utils/numberToChar";
 import { SheetSizeState } from "../../store/SheetSizeState";
 
 export type SheetProps = {};
 
 const Sheet: FunctionComponent<SheetProps> = (props) => {
-    const sheetSize = useRecoilValue(SheetSizeState);
+    
+    const [sheetSize, setSheetSize] = useRecoilState(SheetSizeState);
+
+    const [rowcounter, setrowcounter] = useState<number>(0);
+    const updateRoworColumn = () => {
+        setSheetSize({
+            width: 600,
+            height: 600 + CELL_HEIGHT * rowcounter,
+        });
+    }
+    const incRowCounter = () => {
+        setrowcounter(rowcounter + 1);
+        updateRoworColumn();
+    }
 
     const numberOfColumns = Math.ceil(sheetSize.width/CELL_WIDTH);
     const numberOfRows = Math.ceil(sheetSize.height/CELL_HEIGHT);
+
+    
 
     const saveData = () => {
         fetch("http://127.0.0.1:5000/save/", {
@@ -45,7 +60,8 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         <div>
             <button onClick={saveData}>save</button>
             <button onClick={loadData}>load</button>
-            <Addrow />           
+            <button onClick={incRowCounter}>insert row</button>
+            {/* <Addrow />            */}
         
         {data.length === 0?
         <div className={classes.SheetWrapper}>
