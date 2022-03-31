@@ -1,4 +1,4 @@
-import React, {ComponentType, FunctionComponent} from "react";
+import React, {ComponentType, FunctionComponent, useEffect, useState} from "react";
 import Column from "../Column/Column";
 import Row from "../Row/Row";
 import AxisCell from "../AxisCell/AxisCell";
@@ -25,20 +25,34 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     })
         
     }
+    const [data, setData] = useState<any[]>([]);
 
     const loadData = () => {
         fetch("http://127.0.0.1:5000/load/", {
         method: 'POST',
         headers: {'content-type': 'application/json'},        
     })
-        .then(res => res.json())
-        .then(obj => console.log(obj))
+        .then(res =>
+            res.json()                       
+            )
+        .then(obj => {                  
+            setData(obj)
+        })
+        
     }
-
+    
     return (
         <div>
             <button onClick={saveData}>save</button>
-            <button onClick={loadData}>load</button>
+            <button onClick={loadData}>load</button>            
+            {data.map(data2 =>                
+                    <li>
+                        {data2['cellid'].split(',')[0]}
+                        {data2['cellid'].split(',')[1]}                        
+                        {data2['cellvalue']}
+                    </li>               
+            )}              
+        {/* {data.length === 0? 'not have data' : 'have data'} */}
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
             <tbody>

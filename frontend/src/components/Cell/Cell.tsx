@@ -9,6 +9,7 @@ export const CELL_HEIGHT = 25;
 
 export type CellProps = {
     cellId: string;
+    cellvalue? : any;
 };
 
 const Cell: FunctionComponent<CellProps> = (props) => {
