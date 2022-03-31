@@ -21,7 +21,7 @@ const Addrow: FunctionComponent<AddRowProps> = (props) => {
         doClick();
     }    
 
-    return <div onClick={incCounter} className={classes.Addrow} />;
+    return <button onClick={incCounter} >insert row</button>;
 };
 
 export default Addrow;

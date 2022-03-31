@@ -50,27 +50,44 @@ def save():
 @app.route('/demoload/', methods=['GET'])
 def demoload():
     error = None
-    loaddata = []     
+    loaddata = []
+    loaddata2 = [] 
+    row = 0   
     if request.method == 'GET':
         data = collection.find({})        
-        for i in data:
-            dic = {}
-            dic['cellid'] = i['cellid']
-            dic['cellvalue'] = i['cellvalue']
-            loaddata.append(dic)
+        for i in data:            
+            if (int(i['cellid'].split(',')[0]) != row):
+                row = row + 1
+                loaddata.append(loaddata2)
+                loaddata2 = []
+                loaddata2.append(i['cellvalue'])
+                continue
+            loaddata2.append(i['cellvalue'])
+        loaddata.append(loaddata2)      
+            # dic = {}
+            # dic['cellid'] = i['cellid']
+            # dic['cellvalue'] = i['cellvalue']            
+        # print(len(loaddata))
         return json.dumps(loaddata)
 
 @app.route('/load/', methods=['POST'])
 def load():
     error = None
-    loaddata = []         
+    loaddata = []
+    loaddata2 = [] 
+    row = 0
     if request.method == 'POST':
         data = collection.find({})        
         for i in data:
-            dic = {}
-            dic['cellid'] = i['cellid']
-            dic['cellvalue'] = i['cellvalue']
-            loaddata.append(dic)            
+            if (int(i['cellid'].split(',')[0]) != row):
+                row = row + 1
+                loaddata.append(loaddata2)
+                loaddata2 = []
+                loaddata2.append(i['cellvalue'])
+                continue
+            loaddata2.append(i['cellvalue'])
+        loaddata.append(loaddata2)
+              
         return json.dumps(loaddata)
 
 

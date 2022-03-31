@@ -45,12 +45,18 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     const updateCellValueState = (event: ChangeEvent<HTMLInputElement>) =>
         setCellvalue(event.target.value);
 
+    const updateCellValuefromLoad = (loaddata: any) =>
+        setCellvalue(loaddata);
+
     useEffect(() => {
         document.addEventListener("click", onClickOutsideInputHandler);
 
         return document.addEventListener("click", onClickOutsideInputHandler);
     }, []);
-    // {console.log({'cellid': props.cellId})}
+
+    useEffect(() => props.cellvalue? updateCellValuefromLoad(props.cellvalue) : console.log('not load')
+    , [props.cellvalue]);
+    
     fetch("http://127.0.0.1:5000/getcelldata/", {
         method: 'POST',
         headers: {'content-type': 'application/json'},
@@ -69,9 +75,9 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     ) : (
         <div
             className={classes.CellLabel}
-            data-cell-id={props.cellId}
+            data-cell-id={props.cellId}            
             onClick={changeLabeltoInput}
-        >
+        >            
             {evaluatedCellValueState}
         </div>
     );

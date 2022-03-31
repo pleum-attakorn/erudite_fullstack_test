@@ -25,7 +25,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     })
         
     }
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<any[]>([]);    
 
     const loadData = () => {
         fetch("http://127.0.0.1:5000/load/", {
@@ -44,15 +44,10 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     return (
         <div>
             <button onClick={saveData}>save</button>
-            <button onClick={loadData}>load</button>            
-            {data.map(data2 =>                
-                    <li>
-                        {data2['cellid'].split(',')[0]}
-                        {data2['cellid'].split(',')[1]}                        
-                        {data2['cellvalue']}
-                    </li>               
-            )}              
-        {/* {data.length === 0? 'not have data' : 'have data'} */}
+            <button onClick={loadData}>load</button>
+            <Addrow />           
+        
+        {data.length === 0?
         <div className={classes.SheetWrapper}>
             <table className={classes.Sheet}>
             <tbody>
@@ -65,7 +60,9 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                      )
                     )}
                 </Row>
-                {[...Array(numberOfRows)].map((row, rowIndex) => (
+                { 
+                // data.length === 0?
+                [...Array(numberOfRows)].map((row, rowIndex) => (
                     <Row key={rowIndex}>
                         <AxisCell>{rowIndex + 1}</AxisCell>
                         {[...Array(numberOfColumns)].map((column, columnIndex) => (
@@ -74,11 +71,44 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                             </Column>
                         ))}
                     </Row>
-                ))}        
+                ))                
+                }        
             </tbody>
             </table>
-            <Addrow />
+            
         </div>
+        :
+        
+        <div className={classes.SheetWrapper}>
+            <table className={classes.Sheet}>
+                <tbody>
+                    <Row>
+                        {[...Array(data[0].length + 1)].map((column, columnIndex) =>
+                            columnIndex !== 0 ? (
+                                <AxisCell>{numberToChar(columnIndex - 1)}</AxisCell>
+                            ) : (
+                                <AxisCell />
+                            )
+                        )
+                        }
+                    </Row>
+                    {
+                        [...Array(data.length)].map((row, rowIndex) => (
+                            <Row key={rowIndex}>
+                                <AxisCell>{rowIndex + 1}</AxisCell>
+                                {[...Array(data[0].length)].map((column, columnIndex) => (
+                                    <Column key={columnIndex}>
+                                        <Cell cellId={`${rowIndex},${columnIndex}`} cellvalue={data[rowIndex][columnIndex]} />
+                                    </Column>
+                                ))}
+                            </Row>
+                        )
+                            )
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
         </div>
     );
 };
