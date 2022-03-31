@@ -14,7 +14,7 @@ db = cluster['test']
 collection = db['test']
 data = collection.find({})
 cell = {}
-loaddata = []
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -49,10 +49,10 @@ def save():
 
 @app.route('/demoload/', methods=['GET'])
 def demoload():
-    error = None     
+    error = None
+    loaddata = []     
     if request.method == 'GET':
-        data = collection.find({})
-        
+        data = collection.find({})        
         for i in data:
             dic = {}
             dic['cellid'] = i['cellid']
@@ -62,16 +62,15 @@ def demoload():
 
 @app.route('/load/', methods=['POST'])
 def load():
-    error = None     
+    error = None
+    loaddata = []         
     if request.method == 'POST':
-        data = collection.find({})
-        # count = 0
+        data = collection.find({})        
         for i in data:
             dic = {}
             dic['cellid'] = i['cellid']
             dic['cellvalue'] = i['cellvalue']
-            loaddata.append(dic)
-            # count = count + 1
+            loaddata.append(dic)            
         return json.dumps(loaddata)
 
 
