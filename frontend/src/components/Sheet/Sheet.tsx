@@ -2,35 +2,21 @@ import React, {ComponentType, FunctionComponent, useEffect, useState} from "reac
 import Column from "../Column/Column";
 import Row from "../Row/Row";
 import AxisCell from "../AxisCell/AxisCell";
-import Addrow from "../Row/AddRow";
-import Resizer from "../Resizer/Resizer";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import classes from "./Sheet.module.css";
 import { useRecoilState } from "recoil";
 import { numberToChar } from "../../utils/numberToChar";
-import { SheetSizeState } from "../../store/SheetSizeState";
+import { SheetRowSizeState, SheetColumnSizeState } from "../../store/SheetSizeState";
 
 export type SheetProps = {};
 
 const Sheet: FunctionComponent<SheetProps> = (props) => {
     
-    const [sheetSize, setSheetSize] = useRecoilState(SheetSizeState);
+    const [sheetRowSize, setSheetRowSize] = useRecoilState(SheetRowSizeState);
+    const [sheetColumnSize, setSheetColumnSize] = useRecoilState(SheetColumnSizeState);  
 
-    const [rowcounter, setrowcounter] = useState<number>(0);
-    const updateRoworColumn = () => {
-        setSheetSize({
-            width: 600,
-            height: 600 + CELL_HEIGHT * rowcounter,
-        });
-    }
-    const incRowCounter = () => {
-        setrowcounter(rowcounter + 1);
-        updateRoworColumn();
-    }
-
-    const numberOfColumns = Math.ceil(sheetSize.width/CELL_WIDTH);
-    const numberOfRows = Math.ceil(sheetSize.height/CELL_HEIGHT);
-
+    const numberOfColumns = Math.ceil(sheetColumnSize.width/CELL_WIDTH);
+    const numberOfRows = Math.ceil(sheetRowSize.height/CELL_HEIGHT);
     
 
     const saveData = () => {
@@ -55,13 +41,34 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         })
         
     }
+
+    const [rowcounter, setrowcounter] = useState<number>(1);
+    const [columncounter, setcolumncounter] = useState<number>(1);
+    const updateRow = () => {
+        setSheetRowSize({
+            height: 600 + CELL_HEIGHT * rowcounter,
+        });
+    }
+    const updateColumn = () => {
+        setSheetColumnSize({
+            width: 600 + CELL_WIDTH * columncounter,
+        });
+    }
+    const incRowCounter = () => {
+        setrowcounter(rowcounter + 1);
+        updateRow();
+    }
+    const incColumnCounter = () => {
+        setcolumncounter(columncounter+1);
+        updateColumn();
+    }
     
     return (
         <div>
             <button onClick={saveData}>save</button>
             <button onClick={loadData}>load</button>
             <button onClick={incRowCounter}>insert row</button>
-            {/* <Addrow />            */}
+            <button onClick={incColumnCounter}>insert column</button>
         
         {data.length === 0?
         <div className={classes.SheetWrapper}>

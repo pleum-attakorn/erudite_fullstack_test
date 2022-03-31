@@ -57,11 +57,11 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     useEffect(() => props.cellvalue? updateCellValuefromLoad(props.cellvalue) : console.log('not load')
     , [props.cellvalue]);
     
-    fetch("http://127.0.0.1:5000/getcelldata/", {
-        method: 'POST',
-        headers: {'content-type': 'application/json'},
-        body: JSON.stringify({'cellid': props.cellId, 'cellvalue' : cellValue}),
-    })
+    // fetch("http://127.0.0.1:5000/getcelldata/", {
+    //     method: 'POST',
+    //     headers: {'content-type': 'application/json'},
+    //     body: JSON.stringify({'cellid': props.cellId, 'cellvalue' : cellValue}),
+    // })
 
     return isEditMode ? (
         <input

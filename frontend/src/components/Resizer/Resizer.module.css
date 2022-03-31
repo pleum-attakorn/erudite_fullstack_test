@@ -1,9 +1,0 @@
-.Resizer {
-    width: 8px;
-    height: 8px;
-    background-color: aquamarine;
-    position: absolute;
-    right: -8px;
-    bottom: -8px;
-    cursor: se-resize;
-}

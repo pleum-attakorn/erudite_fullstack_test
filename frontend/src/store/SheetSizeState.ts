@@ -1,9 +1,15 @@
 import { atom } from "recoil";
 
-export const SheetSizeState = atom({
-    key: "SheetSizeState",
+export const SheetRowSizeState = atom({
+    key: "SheetRowSizeState",
+    default: {
+        height: 600,
+    },
+});
+
+export const SheetColumnSizeState = atom({
+    key: "SheetColumnSizeState",
     default: {
         width: 600,
-        height: 600,
     },
 });
