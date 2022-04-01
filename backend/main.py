@@ -87,6 +87,15 @@ def load():
               
         return json.dumps(loaddata)
 
+@app.route('/refresh/', methods=['POST'])
+def pageisRefresh():
+    error = None
+    if request.method == 'POST':        
+        global cell        
+        cell = {}
+        
+    return '200 OK'
+
 
 if __name__ == '__main__':
     app.run(debug=True)

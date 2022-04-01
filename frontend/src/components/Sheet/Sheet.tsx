@@ -6,6 +6,7 @@ import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import { baseUrl } from "../../store/const";
 import { Button } from "react-bootstrap";
 import Alert from "./aleart";
+import Reset from "./reset";
 import classes from "./Sheet.module.css";
 import { useRecoilState } from "recoil";
 import { numberToChar } from "../../utils/numberToChar";
@@ -19,16 +20,8 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     const [sheetColumnSize, setSheetColumnSize] = useRecoilState(SheetColumnSizeState);  
 
     const numberOfColumns = Math.ceil(sheetColumnSize.width/CELL_WIDTH);
-    const numberOfRows = Math.ceil(sheetRowSize.height/CELL_HEIGHT);    
-
-    const saveData = () => {
-        fetch(`${baseUrl}/save/`, {
-        method: 'POST',
-        headers: {'content-type': 'application/json'},      
-    })
-        // alert('save successful')
-        
-    }
+    const numberOfRows = Math.ceil(sheetRowSize.height/CELL_HEIGHT);
+    
     const [data, setData] = useState<any[]>([]);    
 
     const loadData = () => {
@@ -45,8 +38,8 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         
     }
 
-    const [rowcounter, setrowcounter] = useState<number>(0);
-    const [columncounter, setcolumncounter] = useState<number>(0);
+    const [rowcounter, setrowcounter] = useState<number>(1);
+    const [columncounter, setcolumncounter] = useState<number>(1);
     const updateRow = () => {
         setSheetRowSize({
             height: 600 + CELL_HEIGHT * rowcounter,
@@ -64,17 +57,15 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     const incColumnCounter = () => {
         setcolumncounter(columncounter+1);
         updateColumn();
-    }
-
-
+    }    
     
     return (
         <div>
-            {/* <button onClick={saveData}>save</button> */}
             <Alert/>{' '}
             <Button variant="outline-secondary" onClick={loadData}>load</Button>{' '}
             <Button variant="outline-success" onClick={incRowCounter}>insert row</Button>{' '}
             <Button variant="outline-info" onClick={incColumnCounter}>insert column</Button>{' '}
+            <Reset/>            
         
         {data.length === 0?
         <div className={classes.SheetWrapper}>
