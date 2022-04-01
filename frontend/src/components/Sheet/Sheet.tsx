@@ -17,14 +17,14 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     const [sheetColumnSize, setSheetColumnSize] = useRecoilState(SheetColumnSizeState);  
 
     const numberOfColumns = Math.ceil(sheetColumnSize.width/CELL_WIDTH);
-    const numberOfRows = Math.ceil(sheetRowSize.height/CELL_HEIGHT);
-    
+    const numberOfRows = Math.ceil(sheetRowSize.height/CELL_HEIGHT);    
 
     const saveData = () => {
         fetch(`${baseUrl}/save/`, {
         method: 'POST',
-        headers: {'content-type': 'application/json'},        
+        headers: {'content-type': 'application/json'},      
     })
+        alert('save successful')
         
     }
     const [data, setData] = useState<any[]>([]);    
@@ -43,8 +43,8 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         
     }
 
-    const [rowcounter, setrowcounter] = useState<number>(1);
-    const [columncounter, setcolumncounter] = useState<number>(1);
+    const [rowcounter, setrowcounter] = useState<number>(0);
+    const [columncounter, setcolumncounter] = useState<number>(0);
     const updateRow = () => {
         setSheetRowSize({
             height: 600 + CELL_HEIGHT * rowcounter,
@@ -56,13 +56,15 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         });
     }
     const incRowCounter = () => {
-        setrowcounter(rowcounter + 1)
+        setrowcounter(rowcounter + 1);
         updateRow();
     }
     const incColumnCounter = () => {
         setcolumncounter(columncounter+1);
         updateColumn();
     }
+
+
     
     return (
         <div>
@@ -107,7 +109,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
             <table className={classes.Sheet}>
                 <tbody>
                     <Row>
-                        {[...Array(data[0].length + 1)].map((column, columnIndex) =>
+                        {[...Array(data[0].length + 1 + columncounter)].map((column, columnIndex) =>
                             columnIndex !== 0 ? (
                                 <AxisCell>{numberToChar(columnIndex - 1)}</AxisCell>
                             ) : (
@@ -120,8 +122,11 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                         [...Array(data.length)].map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 <AxisCell>{rowIndex + 1}</AxisCell>
-                                {[...Array(data[0].length)].map((column, columnIndex) => (
+                                {[...Array(data[0].length + columncounter)].map((column, columnIndex) => (
                                     <Column key={columnIndex}>
+                                        {/* {data[rowIndex][columnIndex]? <Cell cellId={`${rowIndex},${columnIndex}`} cellvalue={data[rowIndex][columnIndex]} />
+                                            : <Cell cellId={`${rowIndex},${columnIndex}`} />
+                                        }                                         */}
                                         <Cell cellId={`${rowIndex},${columnIndex}`} cellvalue={data[rowIndex][columnIndex]} />
                                     </Column>
                                 ))}
