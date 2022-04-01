@@ -3,6 +3,7 @@ import Column from "../Column/Column";
 import Row from "../Row/Row";
 import AxisCell from "../AxisCell/AxisCell";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
+import { baseUrl } from "../../store/const";
 import classes from "./Sheet.module.css";
 import { useRecoilState } from "recoil";
 import { numberToChar } from "../../utils/numberToChar";
@@ -20,7 +21,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     
 
     const saveData = () => {
-        fetch("http://127.0.0.1:5000/save/", {
+        fetch(`${baseUrl}/save/`, {
         method: 'POST',
         headers: {'content-type': 'application/json'},        
     })
@@ -29,7 +30,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     const [data, setData] = useState<any[]>([]);    
 
     const loadData = () => {
-        fetch("http://127.0.0.1:5000/load/", {
+        fetch(`${baseUrl}/load/`, {
         method: 'POST',
         headers: {'content-type': 'application/json'},        
     })
@@ -55,7 +56,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         });
     }
     const incRowCounter = () => {
-        setrowcounter(rowcounter + 1);
+        setrowcounter(rowcounter + 1)
         updateRow();
     }
     const incColumnCounter = () => {
@@ -84,7 +85,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                     )}
                 </Row>
                 { 
-                // data.length === 0?
+                
                 [...Array(numberOfRows)].map((row, rowIndex) => (
                     <Row key={rowIndex}>
                         <AxisCell>{rowIndex + 1}</AxisCell>

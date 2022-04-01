@@ -1,4 +1,5 @@
 import React, {ChangeEvent, ComponentType, FunctionComponent, useEffect, useRef, useState, KeyboardEvent} from "react";
+import { baseUrl } from "../../store/const";
 import classes from './Cell.module.css';
 import {useRecoilState, useRecoilValue } from "recoil";
 import { CellValueState } from "../../store/CellValueState";
@@ -57,7 +58,7 @@ const Cell: FunctionComponent<CellProps> = (props) => {
     useEffect(() => props.cellvalue? updateCellValuefromLoad(props.cellvalue) : console.log('not load')
     , [props.cellvalue]);
     
-    fetch("http://127.0.0.1:5000/getcelldata/", {
+    fetch(`${baseUrl}/getcelldata/`, {
         method: 'POST',
         headers: {'content-type': 'application/json'},
         body: JSON.stringify({'cellid': props.cellId, 'cellvalue' : cellValue}),
