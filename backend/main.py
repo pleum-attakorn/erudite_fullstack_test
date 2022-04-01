@@ -44,7 +44,10 @@ def save():
     error = None
     if request.method == 'POST':
         for i in cell.keys():
-            collection.update_one({'_id': i}, { "$set": {'cellid' : i,  'cellvalue' : cell[i]} })
+            if collection.find_one({'_id' : i}):
+                collection.update_one({'_id': i}, { "$set": {'cellid' : i,  'cellvalue' : cell[i]} })
+            else:
+                collection.insert_one({'_id': i, 'cellid' : i,  'cellvalue' : cell[i]})
     return '200 OK'
 
 @app.route('/demoload/', methods=['GET'])
@@ -64,10 +67,7 @@ def demoload():
                 continue
             loaddata2.append(i['cellvalue'])
         loaddata.append(loaddata2)      
-            # dic = {}
-            # dic['cellid'] = i['cellid']
-            # dic['cellvalue'] = i['cellvalue']            
-        # print(len(loaddata))
+            
         return json.dumps(loaddata)
 
 @app.route('/load/', methods=['POST'])
