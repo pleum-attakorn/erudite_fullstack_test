@@ -4,6 +4,8 @@ import Row from "../Row/Row";
 import AxisCell from "../AxisCell/AxisCell";
 import Cell, {CELL_HEIGHT, CELL_WIDTH} from "../Cell/Cell";
 import { baseUrl } from "../../store/const";
+import { Button } from "react-bootstrap";
+import Alert from "./aleart";
 import classes from "./Sheet.module.css";
 import { useRecoilState } from "recoil";
 import { numberToChar } from "../../utils/numberToChar";
@@ -24,7 +26,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
         method: 'POST',
         headers: {'content-type': 'application/json'},      
     })
-        alert('save successful')
+        // alert('save successful')
         
     }
     const [data, setData] = useState<any[]>([]);    
@@ -68,10 +70,11 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     
     return (
         <div>
-            <button onClick={saveData}>save</button>
-            <button onClick={loadData}>load</button>
-            <button onClick={incRowCounter}>insert row</button>
-            <button onClick={incColumnCounter}>insert column</button>
+            {/* <button onClick={saveData}>save</button> */}
+            <Alert/>
+            <Button onClick={loadData}>load</Button>
+            <Button onClick={incRowCounter}>insert row</Button>
+            <Button onClick={incColumnCounter}>insert column</Button>
         
         {data.length === 0?
         <div className={classes.SheetWrapper}>
