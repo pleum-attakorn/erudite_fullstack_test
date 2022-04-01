@@ -71,10 +71,10 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
     return (
         <div>
             {/* <button onClick={saveData}>save</button> */}
-            <Alert/>
-            <Button onClick={loadData}>load</Button>
-            <Button onClick={incRowCounter}>insert row</Button>
-            <Button onClick={incColumnCounter}>insert column</Button>
+            <Alert/>{' '}
+            <Button variant="outline-secondary" onClick={loadData}>load</Button>{' '}
+            <Button variant="outline-success" onClick={incRowCounter}>insert row</Button>{' '}
+            <Button variant="outline-info" onClick={incColumnCounter}>insert column</Button>{' '}
         
         {data.length === 0?
         <div className={classes.SheetWrapper}>

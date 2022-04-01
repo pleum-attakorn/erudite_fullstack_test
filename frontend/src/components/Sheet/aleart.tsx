@@ -21,7 +21,7 @@ const Alert: FunctionComponent<AlertProps> = (props) => {
 
     return (
         <>
-        <Button variant='primary' onClick={saveData}>
+        <Button variant='outline-primary' onClick={saveData}>
             save
         </Button>
 
