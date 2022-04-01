@@ -109,7 +109,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
             <table className={classes.Sheet}>
                 <tbody>
                     <Row>
-                        {[...Array(data[0].length + 1 + columncounter)].map((column, columnIndex) =>
+                        {[...Array(data[0].length + 1)].map((column, columnIndex) =>
                             columnIndex !== 0 ? (
                                 <AxisCell>{numberToChar(columnIndex - 1)}</AxisCell>
                             ) : (
@@ -122,7 +122,7 @@ const Sheet: FunctionComponent<SheetProps> = (props) => {
                         [...Array(data.length)].map((row, rowIndex) => (
                             <Row key={rowIndex}>
                                 <AxisCell>{rowIndex + 1}</AxisCell>
-                                {[...Array(data[0].length + columncounter)].map((column, columnIndex) => (
+                                {[...Array(data[0].length)].map((column, columnIndex) => (
                                     <Column key={columnIndex}>
                                         {/* {data[rowIndex][columnIndex]? <Cell cellId={`${rowIndex},${columnIndex}`} cellvalue={data[rowIndex][columnIndex]} />
                                             : <Cell cellId={`${rowIndex},${columnIndex}`} />

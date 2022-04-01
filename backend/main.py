@@ -25,12 +25,10 @@ cors = CORS(app)
 @cross_origin()
 @app.route('/getcelldata/', methods=['POST'])
 def getData():
-    error = None
-    if request.method == 'POST':        
-        if request.json['cellid'] not in cell.keys():
-            cell[request.json['cellid']] = request.json['cellvalue']
-        elif request.json['cellid'] in cell.keys():
-            cell[request.json['cellid']] = request.json['cellvalue']
+    error = None    
+    if request.method == 'POST':
+        cell[request.json['cellid']] = request.json['cellvalue']
+       
         return '200 OK'
 
 @app.route('/celldetail/', methods=['GET'])
@@ -43,11 +41,10 @@ def detail():
 def save():
     error = None
     if request.method == 'POST':
+        collection.delete_many({})
         for i in cell.keys():
-            if collection.find_one({'_id' : i}):
-                collection.update_one({'_id': i}, { "$set": {'cellid' : i,  'cellvalue' : cell[i]} })
-            else:
-                collection.insert_one({'_id': i, 'cellid' : i,  'cellvalue' : cell[i]})
+            collection.insert_one({'_id': i, 'cellid' : i,  'cellvalue' : cell[i]})
+            
     return '200 OK'
 
 @app.route('/demoload/', methods=['GET'])
